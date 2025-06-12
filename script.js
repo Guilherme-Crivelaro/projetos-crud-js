@@ -32,7 +32,7 @@ function insertNewRecord(data){
     var cell4 = newRow.insertCell(3);
         cell4.innerHTML = data.produtoPreco;
     var cell5 = newRow.insertCell(4);
-        cell5.innerHTML = `<button onclick='onEdit(this)'>Editar</button> <button>Delete</button>`
+        cell5.innerHTML = `<button onclick='onEdit(this)'>Editar</button> <button onclick='onDelete(this)'>Delete</button>`
 }
 
 function onEdit(td){

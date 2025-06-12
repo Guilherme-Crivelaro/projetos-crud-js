@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRUD - Gerenciamento de Produtos</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #c73e8f 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            display: flex;
+            gap: 30px;
+            max-width: 1400px;
+            margin: 0 auto;
+            height: calc(100vh - 40px);
+        }
+
+        .form-container {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 30px;
+            width: 350px;
+            height: fit-content;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .form-container h2 {
+            color: white;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            color: white;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.9);
+            font-size: 16px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus {
+            background: white;
+            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.3);
+        }
+
+        .form-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 25px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-submit {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .btn-submit:hover {
+            background: #45a049;
+            transform: translateY(-2px);
+        }
+
+        .btn-reset {
+            background: #f44336;
+            color: white;
+        }
+
+        .btn-reset:hover {
+            background: #da190b;
+            transform: translateY(-2px);
+        }
+
+        .table-container {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        .table-container h2 {
+            color: white;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+            max-height: calc(100vh - 200px);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        th {
+            background: rgba(0, 0, 0, 0.1);
+            color: #333;
+            padding: 15px;
+            text-align: left;
+            font-weight: bold;
+            border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+        }
+
+        td {
+            padding: 15px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            color: #333;
+        }
+
+        tr:hover {
+            background: rgba(0, 0, 0, 0.05);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-edit, .btn-delete {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .btn-edit {
+            background: #2196F3;
+            color: white;
+        }
+
+        .btn-edit:hover {
+            background: #1976D2;
+        }
+
+        .btn-delete {
+            background: #f44336;
+            color: white;
+        }
+
+        .btn-delete:hover {
+            background: #da190b;
+        }
+
+        .empty-state {
+            text-align: center;
+            color: #666;
+            padding: 40px;
+            font-style: italic;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+                height: auto;
+            }
+            
+            .form-container {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="form-container">
+            <h2>Cadastro de Produto</h2>
+            <form id="productForm" autocomplete="off">
+                <div class="form-group">
+                    <label for="produtoCode">Código do Produto</label>
+                    <input type="text" name="produtoCode" id="produtoCode" required>
+                </div>
+                <div class="form-group">
+                    <label for="produto">Nome do Produto</label>
+                    <input type="text" name="produto" id="produto" required>
+                </div>
+                <div class="form-group">
+                    <label for="qty">Quantidade</label>
+                    <input type="number" name="qty" id="qty" min="0" required>
+                </div>
+                <div class="form-group">
+                    <label for="produtoPreco">Preço do Produto</label>
+                    <input type="number" name="produtoPreco" id="produtoPreco" min="0" step="0.01" required>
+                </div>
+                <div class="form-buttons">
+                    <button type="submit" class="btn btn-submit">Cadastrar</button>
+                    <button type="reset" class="btn btn-reset">Limpar</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="table-container">
+            <h2>Lista de Produtos</h2>
+            <div class="table-wrapper">
+                <table id="productTable">
+                    <thead>
+                        <tr>
+                            <th>Código Produto</th>
+                            <th>Nome do Produto</th>
+                            <th>Quantidade</th>
+                            <th>Preço do Produto</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="productTableBody">
+                        <tr>
+                            <td colspan="5" class="empty-state">Nenhum produto cadastrado</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        class ProductManager {
+            constructor() {
+                this.products = [];
+                this.editingIndex = -1;
+                this.init();
+            }
+
+            init() {
+                const form = document.getElementById('productForm');
+                form.addEventListener('submit', (e) => this.handleSubmit(e));
+                form.addEventListener('reset', () => this.handleReset());
+                this.loadFromStorage();
+                this.renderTable();
+            }
+
+            handleSubmit(e) {
+                e.preventDefault();
+                
+                const formData = {
+                    code: document.getElementById('produtoCode').value.trim(),
+                    name: document.getElementById('produto').value.trim(),
+                    qty: parseInt(document.getElementById('qty').value),
+                    price: parseFloat(document.getElementById('produtoPreco').value)
+                };
+
+                if (this.editingIndex >= 0) {
+                    this.updateProduct(formData);
+                } else {
+                    this.addProduct(formData);
+                }
+            }
+
+            addProduct(product) {
+                // Verificar se o código já existe
+                if (this.products.some(p => p.code === product.code)) {
+                    alert('Código do produto já existe!');
+                    return;
+                }
+
+                this.products.push(product);
+                this.saveToStorage();
+                this.renderTable();
+                this.resetForm();
+                this.showSuccess('Produto cadastrado com sucesso!');
+            }
+
+            updateProduct(product) {
+                // Verificar se o código já existe em outro produto
+                const existingIndex = this.products.findIndex(p => p.code === product.code);
+                if (existingIndex >= 0 && existingIndex !== this.editingIndex) {
+                    alert('Código do produto já existe!');
+                    return;
+                }
+
+                this.products[this.editingIndex] = product;
+                this.editingIndex = -1;
+                this.saveToStorage();
+                this.renderTable();
+                this.resetForm();
+                this.updateSubmitButton(false);
+                this.showSuccess('Produto atualizado com sucesso!');
+            }
+
+            editProduct(index) {
+                const product = this.products[index];
+                document.getElementById('produtoCode').value = product.code;
+                document.getElementById('produto').value = product.name;
+                document.getElementById('qty').value = product.qty;
+                document.getElementById('produtoPreco').value = product.price;
+                
+                this.editingIndex = index;
+                this.updateSubmitButton(true);
+                
+                // Scroll para o formulário
+                document.querySelector('.form-container').scrollIntoView({ behavior: 'smooth' });
+            }
+
+            deleteProduct(index) {
+                const product = this.products[index];
+                if (confirm(`Tem certeza que deseja excluir o produto "${product.name}"?`)) {
+                    this.products.splice(index, 1);
+                    this.saveToStorage();
+                    this.renderTable();
+                    this.showSuccess('Produto excluído com sucesso!');
+                    
+                    // Se estava editando o produto excluído, resetar
+                    if (this.editingIndex === index) {
+                        this.handleReset();
+                    } else if (this.editingIndex > index) {
+                        this.editingIndex--;
+                    }
+                }
+            }
+
+            renderTable() {
+                const tbody = document.getElementById('productTableBody');
+                
+                if (this.products.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="5" class="empty-state">Nenhum produto cadastrado</td></tr>';
+                    return;
+                }
+
+                tbody.innerHTML = this.products.map((product, index) => `
+                    <tr>
+                        <td>${product.code}</td>
+                        <td>${product.name}</td>
+                        <td>${product.qty}</td>
+                        <td>R$ ${product.price.toFixed(2)}</td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="btn-edit" onclick="productManager.editProduct(${index})">Editar</button>
+                                <button class="btn-delete" onclick="productManager.deleteProduct(${index})">Excluir</button>
+                            </div>
+                        </td>
+                    </tr>
+                `).join('');
+            }
+
+            handleReset() {
+                this.editingIndex = -1;
+                this.updateSubmitButton(false);
+                this.resetForm();
+            }
+
+            resetForm() {
+                document.getElementById('productForm').reset();
+            }
+
+            updateSubmitButton(isEditing) {
+                const submitBtn = document.querySelector('.btn-submit');
+                submitBtn.textContent = isEditing ? 'Atualizar' : 'Cadastrar';
+                submitBtn.style.background = isEditing ? '#FF9800' : '#4CAF50';
+            }
+
+            saveToStorage() {
+                // Em um ambiente real, salvaria no localStorage
+                // localStorage.setItem('products', JSON.stringify(this.products));
+            }
+
+            loadFromStorage() {
+                // Em um ambiente real, carregaria do localStorage
+                // const saved = localStorage.getItem('products');
+                // if (saved) {
+                //     this.products = JSON.parse(saved);
+                // }
+            }
+
+            showSuccess(message) {
+                // Simples feedback visual
+                const originalBg = document.body.style.background;
+                document.body.style.background = 'linear-gradient(135deg, #4CAF50 0%, #45a049 50%, #2e7d32 100%)';
+                
+                setTimeout(() => {
+                    document.body.style.background = originalBg;
+                }, 1000);
+                
+                console.log(message); // Em um ambiente real, usaria um toast ou modal
+            }
+        }
+
+        // Inicializar o gerenciador de produtos
+        const productManager = new ProductManager();
+    </script>
+</body>
+</html>

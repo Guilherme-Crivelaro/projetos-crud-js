@@ -3,16 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Agendamento de Consultas Médicas</title>
+  <title>Agendamento de Consultas Médicas</title> <!-- // Altere este título conforme o novo tema -->
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>Agendamento de Consultas Médicas</h1>
+  <h1>Agendamento de Consultas Médicas</h1>  <!-- // Altere o cabeçalho da página conforme o novo tema -->
 
-  <form id="formConsulta">
+  <form id="formConsulta"> <!-- // Renomeie o ID se mudar o nome do formulário -->
     <input type="hidden" id="indiceAtual">
     <label>Nome do Paciente:
-      <input type="text" id="paciente" required>
+      <input type="text" id="paciente" required><!-- // Troque 'paciente' pelo novo campo, ex: cliente -->
     </label>
     <label>Especialidade Médica:
       <select id="especialidade">
@@ -23,19 +23,19 @@
       </select>
     </label>
     <label>Data da Consulta:
-      <input type="text" id="data" placeholder="DD/MM/AAAA" required>
+      <input type="text" id="data" placeholder="DD/MM/AAAA" required> <!-- // Altere para outro tipo de campo se não for data -->
     </label>
     <div class="checkboxes">
-      <label><input type="checkbox" id="retorno"> Retorno</label>
+      <label><input type="checkbox" id="retorno"> Retorno</label> <!-- // Altere os nomes dos checkboxes conforme o novo tema -->
       <label><input type="checkbox" id="urgente"> Urgente</label>
     </div>
-    <button type="submit">Agendar Consulta</button>
+    <button type="submit">Agendar Consulta</button><!-- // Altere o texto do botão para o novo contexto -->
   </form>
 
   <table>
     <thead>
       <tr>
-        <th>Paciente</th>
+        <th>Paciente</th> <!-- // Mude os títulos da tabela conforme os novos dados -->
         <th>Especialidade</th>
         <th>Data</th>
         <th>Observações</th>
@@ -43,7 +43,7 @@
         <th>Ações</th>
       </tr>
     </thead>
-    <tbody id="tabelaConsultas"></tbody>
+    <tbody id="tabelaConsultas"></tbody><!-- // Mude o ID se mudar o contexto -->
   </table>
 
   <script src="script.js"></script>

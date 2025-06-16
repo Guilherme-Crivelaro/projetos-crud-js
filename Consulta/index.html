@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agendamento de Consultas Médicas</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>Agendamento de Consultas Médicas</h1>
+
+  <form id="formConsulta">
+    <input type="hidden" id="indiceAtual">
+    <label>Nome do Paciente:
+      <input type="text" id="paciente" required>
+    </label>
+    <label>Especialidade Médica:
+      <select id="especialidade">
+        <option value="Clínico Geral">Clínico Geral</option>
+        <option value="Pediatria">Pediatria</option>
+        <option value="Ortopedia">Ortopedia</option>
+        <option value="Dermatologia">Dermatologia</option>
+      </select>
+    </label>
+    <label>Data da Consulta:
+      <input type="text" id="data" placeholder="DD/MM/AAAA" required>
+    </label>
+    <div class="checkboxes">
+      <label><input type="checkbox" id="retorno"> Retorno</label>
+      <label><input type="checkbox" id="urgente"> Urgente</label>
+    </div>
+    <button type="submit">Agendar Consulta</button>
+  </form>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Paciente</th>
+        <th>Especialidade</th>
+        <th>Data</th>
+        <th>Observações</th>
+        <th>Valor</th>
+        <th>Ações</th>
+      </tr>
+    </thead>
+    <tbody id="tabelaConsultas"></tbody>
+  </table>
+
+  <script src="script.js"></script>
+</body>
+</html>

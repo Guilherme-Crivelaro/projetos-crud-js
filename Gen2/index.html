@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Controle de Inventário - Loja de Eletrônicos</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h2>Inventário - Loja de Eletrônicos</h2>
+
+  <form id="formProduto">
+    <input type="hidden" id="indiceAtual">
+    <label>Produto:
+      <input type="text" id="produto" required>
+    </label>
+    <label>Categoria:
+      <select id="categoria">
+        <option value="Smartphone">Smartphone</option>
+        <option value="Notebook">Notebook</option>
+        <option value="Acessório">Acessório</option>
+      </select>
+    </label>
+    <label>Quantidade em Estoque:
+      <input type="number" id="quantidade" required>
+    </label>
+    <label>Valor Unitário (R$):
+      <input type="number" id="valor" required>
+    </label>
+    <button type="submit">Salvar Produto</button>
+  </form>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Produto</th>
+        <th>Categoria</th>
+        <th>Estoque</th>
+        <th>Unitário (R$)</th>
+        <th>Valor Total</th>
+        <th>Ações</th>
+      </tr>
+    </thead>
+    <tbody id="tabelaProdutos"></tbody>
+  </table>
+
+  <script src="script.js"></script>
+</body>
+</html>
